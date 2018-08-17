@@ -1,0 +1,37 @@
+<!--pages/list/list.wxml-->
+<wxs module="m1">
+  var getName = function(array) {
+    var name = "";
+    for (var i = 0; i < array.length; ++i) {
+      name = name ? (array[i].name ?
+        name + "/" + array[i].name : name) : (array[i].name ?
+        array[i].name : name);
+    }
+    return name;
+  };
+  module.exports.getName = getName;
+</wxs>
+<view class="pages">
+  <view wx:for="{{data}}" wx:key="id" class="content">
+    
+     <view class="name">{{item.name}} ({{m1.getName(item.ar)}})</view>
+    <image style="width: 200px;margin:10rpx 0 30rpx 0;" mode="widthFix" src="{{item.al.picUrl}}"></image>
+   <view  class="btn" >
+    <text class="txt" bindtap='gotoDetail' data-index="{{index}}" data-id="{{item.id}}" data-type="song" data-name="{{item.name}}({{m1.getName(item.ar)}})" data-songer="{{m1.getName(item.ar)}}" data-img="{{item.al.picUrl}}">听音乐</text>
+    <text  class="txt" bindtap='gotoDetail' data-id="{{item.id}}" data-type="comments" data-name="{{item.name}}({{m1.getName(item.ar)}})">看评论</text>
+   
+    </view> 
+  </view>
+</view>
+<view class="play-bar {{isshowplay?'':'hide'}}" >
+    <view class="play-bar-image-container"> 
+        <image class="{{playing === false?'':'Rotation'}} play-bar-image" src="{{playBar.coverImgUrl}}" ></image>
+    </view>
+    <text class="play-bar-text">{{playBar.name}}</text>
+    <block wx:if="{{playing === false}}">
+    <image class="play-bar-button" src="/images/icon-play.png" data-id="{{playBar.index}}"  bindtap="play"  ></image>
+    </block>
+    <block wx:if="{{playing === true}}">
+    <image class="play-bar-button" src="/images/icon-pause.png" data-id="{{playBar.index}}"   bindtap="pause"  ></image>
+    </block>
+</view>

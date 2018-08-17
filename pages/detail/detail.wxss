@@ -1,0 +1,120 @@
+/* pages/detail/detail.wxss */
+ page {
+            font-family: 微软雅黑;
+            font-size: 32rpx;
+            background-color: #efeff4;
+        }
+        .pages{
+          margin-bottom: 100rpx;
+        }
+        .hide{
+  display: none!important;
+}
+        .title{
+          margin-top: 20rpx;
+          margin-left: 10rpx;
+        font-size: 28rpx;
+        color:#404040;
+        display: flex;
+        justify-content: space-between;
+        }
+        .box {
+            margin:0 0 10rpx 0;
+            background-color: #F0F4F3;
+        }
+        .top {
+            border-bottom:1px solid #dedee2;
+        }
+        .content {
+            margin: 20rpx 30rpx;
+            
+        }
+        .details{
+          margin-left:70rpx;
+          font-size: 28rpx;
+          line-height: 36rpx;
+        }
+
+        .user {
+            height:80rpx;
+            font-size: 24rpx;
+            color: #505050;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .username{
+          display: flex;
+            justify-content: space-between;
+            align-items: space-between;
+        }
+        .img {
+            border-radius: 50%;
+            width: 60rpx;
+            height: 60rpx;
+            vertical-align: middle;
+        }
+        .txtname{
+          padding-left: 10rpx;
+        }
+        .txttime{
+          padding-left: 10rpx;
+          color: #7d7d7d;
+          font-size:22rpx; 
+        }
+        .user span {}
+
+
+
+        
+@-webkit-keyframes rotation{
+from {-webkit-transform: rotate(0deg);}
+to {-webkit-transform: rotate(360deg);}
+}
+
+.Rotation{
+-webkit-transform: rotate(360deg);
+        animation: rotation 5s linear infinite;
+   -moz-animation: rotation 5s linear infinite;
+-webkit-animation: rotation 5s linear infinite;
+     -o-animation: rotation 5s linear infinite;
+}
+
+.play-bar{
+    position: fixed;
+    bottom:0rpx;
+    width:100%;
+    height:100rpx;
+    background: -webkit-linear-gradient(top, #f9f9f9, #f3f3f3); 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.play-bar-image-container{
+    width:75rpx;
+    height:75rpx;
+    padding-left:30rpx;
+}
+
+.play-bar-image{
+    width:75rpx;
+    height:75rpx;
+    border-radius: 50%;
+}
+
+.play-bar-text{
+    flex-grow: 1;
+    padding-left:20rpx;
+}
+
+.play-bar-button{
+    width:40rpx;
+    height:40rpx;
+    padding-right:60rpx;
+}
+
+.bottom-space{
+    height:100rpx;
+}

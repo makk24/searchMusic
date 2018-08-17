@@ -1,0 +1,51 @@
+<!--pages/detail/detail.wxml-->
+<wxs module="mm">
+  var changeTime = function(time) {
+    var date = getDate();
+    date.setTime(time);
+    var year = date.getFullYear()
+  var month = date.getMonth() + 1
+  var day = date.getDate()
+  return year+"年"+month+"月"+day+"日";
+  };
+  module.exports.changeTime = changeTime;
+</wxs>
+<view class="pages">
+<view class='title'>精彩评论</view>
+<view class='box'>
+  <view id="app">
+    <view class="top" wx:for="{{data}}" wx:key="">
+      <view class='content' >
+        <view class='user'>
+        <view class='username'>
+          <view >
+            <image class="img" src="{{item.user.avatarUrl?item.user.avatarUrl:' '}}" alt="" />
+          </view>
+          <view>
+            <text class="txtname">{{ item.user.nickname }}</text>
+            <view class="txttime">{{ mm.changeTime(item.time) }}</view>
+          </view>
+          </view>
+          <view style="float:right;vertical-align: middle;"><view style="display:inline-block;padding-bottom:3rpx;">{{ item.likedCount }}</view><image style='width:68rpx;height:45rpx' src='/images/zan.jpg'> </image></view>
+        </view>
+        <view class="details">
+          <text>{{ item.content }}</text>
+        </view>
+        <view class="line"></view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="play-bar {{isshowplay?'':'hide'}}" >
+    <view class="play-bar-image-container"> 
+        <image class="{{playing === false?'':'Rotation'}} play-bar-image" src="{{playBar.coverImgUrl}}" ></image>
+    </view>
+    <text class="play-bar-text">{{playBar.name}}</text>
+    <block wx:if="{{playing === false}}">
+    <image class="play-bar-button" src="/images/icon-play.png" data-id="{{playBar.index}}"  bindtap="play"  ></image>
+    </block>
+    <block wx:if="{{playing === true}}">
+    <image class="play-bar-button" src="/images/icon-pause.png" data-id="{{playBar.index}}"   bindtap="pause"  ></image>
+    </block>
+</view>
+</view>

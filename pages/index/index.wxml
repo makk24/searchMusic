@@ -1,0 +1,34 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="usermotto">
+  </view>
+  <form bindsubmit="formSubmit" report-submit="true" class='clear search'>
+  <view><input style='width:400rpx;height:80rpx;line-height:80rpx;text-align:left;border:1px solid #ccc;' name="song" type='text' placeholder='输入歌名' placeholder-style="line-height:80rpx;" bindinput="getsongname" value="{{name}}"></input>
+  </view>
+   <view>
+  <button size="default" formType="submit" type="primary" style='margin-top:60rpx;background-color:#3BB7F9;width:50%;height:80rpx;line-height:80rpx;' bindtap='getData'>搜一搜</button>
+  </view> 
+  </form>
+  <contact-button   size="50"  session-from="weapp"   style='position:fixed;bottom:30rpx;right:30rpx'
+>
+
+</contact-button>
+
+
+  <!-- <navigator url='pages/list/list?name=十年'></navigator>
+
+  <view bindtap='getDatatest'>获取数据test</view>
+  <audio poster="{{poster}}" name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls loop></audio> -->
+</view>
+<!-- <button open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" style='margin-top:20px;'>获取用户信息</button>
+<text selectable="true">{{code}}</text>
+<text selectable="true">{{formid}}</text>
+<button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" style='margin-top:20px;'>获取用户手机号</button>
+<text selectable="true">{{phone}}</text> -->
