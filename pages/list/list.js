@@ -78,8 +78,8 @@ Page({
   getData: function (name) {
     var that = this;
     wx.request({
-      url: "https://api.imjad.cn/cloudmusic/",
-      data: { type: "search", s: name },
+      url: "http://localhost:3000/search",
+      data: { keywords: name },
       success: function (res) {
         console.log(res)
         that.setData({

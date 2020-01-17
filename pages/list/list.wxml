@@ -14,8 +14,8 @@
 <view class="pages">
   <view wx:for="{{data}}" wx:key="id" class="content">
     
-     <view class="name">{{item.name}} ({{m1.getName(item.ar)}})</view>
-    <image style="width: 200px;margin:10rpx 0 30rpx 0;" mode="widthFix" src="{{item.al.picUrl}}"></image>
+     <view class="name">{{item.name}} ({{m1.getName(item.artists)}})</view>
+    <image style="width: 200px;margin:10rpx 0 30rpx 0;" mode="widthFix" src="{{item.artists[0].img1v1Url}}"></image>
    <view  class="btn" >
     <text class="txt" bindtap='gotoDetail' data-index="{{index}}" data-id="{{item.id}}" data-type="song" data-name="{{item.name}}({{m1.getName(item.ar)}})" data-songer="{{m1.getName(item.ar)}}" data-img="{{item.al.picUrl}}">听音乐</text>
     <text  class="txt" bindtap='gotoDetail' data-id="{{item.id}}" data-type="comments" data-name="{{item.name}}({{m1.getName(item.ar)}})">看评论</text>
