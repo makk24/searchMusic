@@ -73,8 +73,8 @@ Page({
   getData: function (id,typename) {
     var that = this;
     wx.request({
-      url: "https://api.imjad.cn/cloudmusic/",
-      data: { type: typename, id: id },
+      url: "https://makunkun.cn/comment/hot",
+      data: { type: 0, id: id },
       success: function (res) {
         console.log(res)
         that.setData({

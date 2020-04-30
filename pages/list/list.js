@@ -15,6 +15,9 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
+    that.setData({
+      istoday: new Date().getDate()==25
+    })
     if (options.name) {
       that.getData(options.name)
     } else {
@@ -78,13 +81,27 @@ Page({
   getData: function (name) {
     var that = this;
     wx.request({
-      url: "http://localhost:3000/search",
+      url: "https://makunkun.cn/search",
       data: { keywords: name },
       success: function (res) {
         console.log(res)
         that.setData({
           data: res.data.result.songs
         })
+      }
+    })
+  },
+  gotoDetail_sup: function (e) {
+    let that = this;
+    wx.requestSubscribeMessage({
+      tmplIds: ['dyHKUlEDOsCDzSQjQ_4fc3VfVcS0DpsqwPe64sI2llk'],
+      success(res) {
+        console.log(res)
+        that.gotoDetail(e)
+      },
+      fail(res) {
+        console.log(res)
+        that.gotoDetail(e)
       }
     })
   },
@@ -114,7 +131,7 @@ Page({
                 })
                 app.globalData.playing = {
                   isshowplay: true,
-                  playBar: { index: e.currentTarget.dataset.index, coverImgUrl: e.currentTarget.dataset.img, name: e.currentTarget.dataset.name },
+                  playBar: { index: e.currentTarget.dataset.index, coverImgUrl: e.currentTarget.dataset.img, name: e.currentTarget.dataset.name, id: e.currentTarget.dataset.id },
                   dataUrl: res.data.data[0].url,
                   name: e.currentTarget.dataset.name,
                   singer: e.currentTarget.dataset.songer,

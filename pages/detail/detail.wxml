@@ -10,7 +10,7 @@
   };
   module.exports.changeTime = changeTime;
 </wxs>
-<view class="pages">
+<view class="pages" style="margin-bottom:{{playBar?'100rpx':'0'}}">
 <view class='title'>精彩评论</view>
 <view class='box'>
   <view id="app">
