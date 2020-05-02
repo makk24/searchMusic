@@ -8,8 +8,12 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "看歌",
+    "navigationBarTitleText": "查音乐",
     "navigationBarTextStyle": "black"
   },
+  "requiredBackgroundModes": [
+    "audio",
+    "location"
+  ],
   "sitemapLocation": "sitemap.json"
 }

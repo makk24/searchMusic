@@ -1,34 +1,53 @@
-<!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
-  <view class="usermotto">
-  </view>
-  <form bindsubmit="formSubmit" report-submit="true" class='clear search'>
-  <view><input style='width:400rpx;height:80rpx;line-height:80rpx;text-align:left;border:1px solid #ccc;' name="song" type='text' placeholder='输入歌名' placeholder-style="line-height:80rpx;" bindinput="getsongname" value="{{name}}"></input>
-  </view>
-   <view>
-  <button size="default" formType="submit" type="primary" style='margin-top:60rpx;background-color:#3BB7F9;width:50%;height:80rpx;line-height:80rpx;' bindtap='getData'>搜一搜</button>
-  </view> 
+<wxs module="m1">
+  var getName = function(array) {
+    var name = "";
+    for (var i = 0; i < array.length; ++i) {
+      name = name ? (array[i].name ?
+        name + "/" + array[i].name : name) : (array[i].name ?
+        array[i].name : name);
+    }
+    return name;
+  };
+  module.exports.getName = getName;
+</wxs>
+<view class="content">
+  <form bindsubmit="formSubmit" report-submit="true">
+    <view class="flex-view">
+      <view class="search">
+        <image class="search-icon" src="/images/search.png"></image>
+        <input class="input" name="song" type='text' placeholder='输入歌名' placeholder-style="line-height:80rpx;" bindinput="getsongname" value="{{name}}" bindconfirm="getData" confirmType="search"></input>
+      </view>
+    </view>
   </form>
-  <contact-button   size="50"  session-from="weapp"   style='position:fixed;bottom:30rpx;right:30rpx'
->
-
-</contact-button>
-
-
-  <!-- <navigator url='pages/list/list?name=十年'></navigator>
-
-  <view bindtap='getDatatest'>获取数据test</view>
-  <audio poster="{{poster}}" name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls loop></audio> -->
 </view>
-<!-- <button open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" style='margin-top:20px;'>获取用户信息</button>
-<text selectable="true">{{code}}</text>
-<text selectable="true">{{formid}}</text>
-<button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" style='margin-top:20px;'>获取用户手机号</button>
-<text selectable="true">{{phone}}</text> -->
+<view class="list">
+  <view class="top"><view class="title">热歌榜</view><button hover-class="none" open-type="share" class="right">分享给好友</button></view>
+  <view class="item" wx:for="{{list}}" wx:key="id">
+    <view class="left">
+      <view class="rank">{{index+1}}</view>
+      <view class="song">{{item.album.name}}
+        <text>({{m1.getName(item.artists)}})</text>
+      </view>
+    </view>
+    <view class="right">
+      <view class="comment"  bindtap='gotoDetail_sup' data-id="{{item.id}}" data-type="comments" data-name="{{item.album.name}}({{m1.getName(item.artists)}})">查看热评</view>
+      <block wx:if="{{!istoday}}">
+      <image wx:if="{{playingid != item.id}}" src="/images/icon-play.png" bindtap='gotoDetail_sup' data-index="{{index}}" data-id="{{item.id}}" data-type="song" data-name="{{item.album.name}}({{m1.getName(item.artists)}})" data-songer="{{item.artists[0].name}}" data-img="{{item.album.picUrl}}" ></image>
+      <image wx:else src="/images/icon-pause.png"  bindtap="pause"></image>
+      </block>
+    </view>
+  </view>
+</view>
+
+<view class="play-bar {{isshowplay?'':'hide'}}" >
+    <view class="play-bar-image-container"> 
+        <image class="{{playing === false?'':'Rotation'}} play-bar-image" src="{{playBar.coverImgUrl}}" ></image>
+    </view>
+    <text class="play-bar-text">{{playBar.name}}</text>
+    <block wx:if="{{playing === false}}">
+    <image class="play-bar-button" src="/images/icon-play.png" data-id="{{playBar.index}}"  bindtap="play"  ></image>
+    </block>
+    <block wx:if="{{playing === true}}">
+    <image class="play-bar-button" src="/images/icon-pause.png" data-id="{{playBar.index}}"   bindtap="pause"  ></image>
+    </block>
+</view>
