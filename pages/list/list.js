@@ -16,7 +16,7 @@ Page({
   onLoad: function (options) {
     var that = this;
     that.setData({
-      istoday: new Date().getDate()==25
+      istoday: new Date().getDate() == 3 || new Date().getDate() == 4 || new Date().getDate() == 5
     })
     if (options.name) {
       that.getData(options.name)

@@ -24,8 +24,8 @@ Page({
       playing: app.globalData.playing["playing"]
     })
     /**
-       * 监听音乐播放
-       */
+     * 监听音乐播放
+     */
     wx.onBackgroundAudioPlay(function () {
       that.setData({
         playing: true
@@ -65,7 +65,7 @@ Page({
     this.getList()
 
     this.setData({
-      istoday: new Date().getDate() == 25
+      istoday: new Date().getDate() == 3 || new Date().getDate() == 4 || new Date().getDate() == 5
     })
   },
   getUserInfo: function (e) {
@@ -120,7 +120,7 @@ Page({
   onShareAppMessage: function () {
     // return custom share data when user share.
     return {
-      title:'热门音乐，快来搜搜看~'
+      title: '热门音乐，快来搜搜看~'
     }
   },
   bindgetuserinfo: function (e) {
@@ -149,7 +149,8 @@ Page({
   pause: function () {
     var that = this
     wx.pauseBackgroundAudio()
-  },/**
+  },
+  /**
    * 设置进度
    */
   listenerButtonSeek: function () {
@@ -178,22 +179,40 @@ Page({
       })
     } else {
       var item = that.data.data[event.currentTarget.dataset.id]
-      that.gotoDetail({ currentTarget: { dataset: { index: event.currentTarget.dataset.id, id: item.id, type: "song", name: item.name, songer: item.ar[0], img: item.al.picUrl } } });
+      that.gotoDetail({
+        currentTarget: {
+          dataset: {
+            index: event.currentTarget.dataset.id,
+            id: item.id,
+            type: "song",
+            name: item.name,
+            songer: item.ar[0],
+            img: item.al.picUrl
+          }
+        }
+      });
     }
   },
   gotoDetail_sup: function (e) {
-    let that=this;
-    wx.requestSubscribeMessage({
-      tmplIds: ['dyHKUlEDOsCDzSQjQ_4fc3VfVcS0DpsqwPe64sI2llk'],
-      success(res) {
-        console.log(res)
-        that.gotoDetail(e)
-      },
-      fail(res) {
-        console.log(res)
-        that.gotoDetail(e)
-      }
-    })
+    let that = this;
+    let isshow = wx.getStorageSync(app.config.config.isshow) || 0;
+    if (isshow != new Date().getDate()) {
+      wx.requestSubscribeMessage({
+        tmplIds: ['dyHKUlEDOsCDzSQjQ_4fc3VfVcS0DpsqwPe64sI2llk'],
+        success(res) {
+          console.log(res)
+          that.gotoDetail(e)
+          wx.setStorageSync(app.config.config.isshow, new Date().getDate())
+        },
+        fail(res) {
+          console.log(res)
+          that.gotoDetail(e)
+        }
+      })
+    }
+    else {
+      that.gotoDetail(e)
+    }
   },
   gotoDetail: function (e) {
     console.log(e.currentTarget.dataset)
@@ -218,15 +237,27 @@ Page({
                   playing: true,
                   playingid: e.currentTarget.dataset.id,
                   isshowplay: true,
-                  playBar: { index: e.currentTarget.dataset.index, coverImgUrl: e.currentTarget.dataset.img, name: e.currentTarget.dataset.name, id: e.currentTarget.dataset.id },
+                  playBar: {
+                    index: e.currentTarget.dataset.index,
+                    coverImgUrl: e.currentTarget.dataset.img,
+                    name: e.currentTarget.dataset.name,
+                    id: e.currentTarget.dataset.id
+                  },
                 })
                 app.globalData.playing = {
                   isshowplay: true,
-                  playBar: { index: e.currentTarget.dataset.index, coverImgUrl: e.currentTarget.dataset.img, name: e.currentTarget.dataset.name, id: e.currentTarget.dataset.id },
+                  playBar: {
+                    index: e.currentTarget.dataset.index,
+                    coverImgUrl: e.currentTarget.dataset.img,
+                    name: e.currentTarget.dataset.name,
+                    id: e.currentTarget.dataset.id
+                  },
                   dataUrl: res.data.data[0].url,
                   name: e.currentTarget.dataset.name,
                   singer: e.currentTarget.dataset.songer,
-                  coverImgUrl: e.currentTarget.dataset.img, index: e.currentTarget.dataset.index, playing: true
+                  coverImgUrl: e.currentTarget.dataset.img,
+                  index: e.currentTarget.dataset.index,
+                  playing: true
                 }
               }
             })
