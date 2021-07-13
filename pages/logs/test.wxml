@@ -1,0 +1,3 @@
+<!--pages/logs/test.wxml-->
+<official-account bindload='test1' binderror='test2'>试试</official-account>
+<navigator style="margin-top:30rpx;" url='/pages/logs/test2'>点击打开公众号文章</navigator>

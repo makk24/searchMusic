@@ -25,14 +25,14 @@
   <view class="item" wx:for="{{list}}" wx:key="id">
     <view class="left">
       <view class="rank">{{index+1}}</view>
-      <view class="song">{{item.album.name}}
-        <text>({{m1.getName(item.artists)}})</text>
+      <view class="song">{{item.al.name}}
+        <text>({{m1.getName(item.ar)}})</text>
       </view>
     </view>
     <view class="right">
-      <view class="comment"  bindtap='gotoDetail_sup' data-id="{{item.id}}" data-type="comments" data-name="{{item.album.name}}({{m1.getName(item.artists)}})">查看热评</view>
+      <view class="comment"  bindtap='gotoDetail_sup' data-id="{{item.id}}" data-type="comments" data-name="{{item.al.name}}({{m1.getName(item.ar)}})">查看热评</view>
       <block wx:if="{{!istoday}}">
-      <image wx:if="{{playingid != item.id}}" src="/images/icon-play.png" bindtap='gotoDetail_sup' data-index="{{index}}" data-id="{{item.id}}" data-type="song" data-name="{{item.album.name}}({{m1.getName(item.artists)}})" data-songer="{{item.artists[0].name}}" data-img="{{item.album.picUrl}}" ></image>
+      <image wx:if="{{playingid != item.id}}" src="/images/icon-play.png" bindtap='gotoDetail_sup' data-index="{{index}}" data-id="{{item.id}}" data-type="song" data-name="{{item.al.name}}({{m1.getName(item.ar)}})" data-songer="{{item.ar[0].name}}" data-img="{{item.al.picUrl}}" ></image>
       <image wx:else src="/images/icon-pause.png"  bindtap="pause"></image>
       </block>
     </view>

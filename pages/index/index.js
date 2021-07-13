@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
+const bgm = wx.getBackgroundAudioManager();
 Page({
   data: {
     motto: 'Hello World',
@@ -26,7 +27,7 @@ Page({
     /**
      * 监听音乐播放
      */
-    wx.onBackgroundAudioPlay(function () {
+    bgm.onPlay(function () {
       that.setData({
         playing: true
       })
@@ -36,7 +37,7 @@ Page({
     /**
      * 监听音乐暂停
      */
-    wx.onBackgroundAudioPause(function () {
+    bgm.onPause(function () {
       that.setData({
         playing: false,
         playingid: 0
@@ -47,7 +48,7 @@ Page({
     /**
      * 监听音乐停止
      */
-    wx.onBackgroundAudioStop(function () {
+    bgm.onStop(function () {
       that.setData({
         playing: false,
         playingid: 0
@@ -65,7 +66,7 @@ Page({
     this.getList()
 
     this.setData({
-      istoday: new Date().getDate() == 3 || new Date().getDate() == 4 || new Date().getDate() == 5
+      istoday: false
     })
   },
   getUserInfo: function (e) {
@@ -102,7 +103,7 @@ Page({
         console.log(res)
         wx.hideLoading()
         that.setData({
-          list: res.data.result.tracks || []
+          list: res.data.playlist.tracks || []
         })
       },
       fail(res) {
@@ -148,7 +149,7 @@ Page({
 
   pause: function () {
     var that = this
-    wx.pauseBackgroundAudio()
+    bgm.pause()
   },
   /**
    * 设置进度
@@ -162,20 +163,16 @@ Page({
     var that = this
     var res = app.globalData.playing;
     if (res.index >= 0) {
+      bgm.title = res.name
+      bgm.epname = res.name
+      bgm.singer = res.singer
+      bgm.coverImgUrl = res.coverImgUrl
+      bgm.src = res.dataUrl
+      bgm.play()
       that.setData({
-        playBar: res.playBar
-      })
-      wx.playBackgroundAudio({
-        dataUrl: res.dataUrl,
-        name: res.name,
-        singer: res.singer,
-        coverImgUrl: res.coverImgUrl,
-        complete: function (res) {
-          that.setData({
-            playing: true,
-            playingid: res.playBar.id
-          })
-        }
+        playBar: res.playBar,
+        playing: true,
+        playingid: res.playBar.id
       })
     } else {
       var item = that.data.data[event.currentTarget.dataset.id]
@@ -227,38 +224,39 @@ Page({
           url: 'https://api.imjad.cn/cloudmusic/?type=song&id=' + e.currentTarget.dataset.id, //仅为示例，并非真实的资源
           success: function (res) {
             console.log(res)
-            wx.playBackgroundAudio({
-              dataUrl: res.data.data[0].url,
-              name: e.currentTarget.dataset.name,
-              singer: e.currentTarget.dataset.songer,
-              coverImgUrl: e.currentTarget.dataset.img,
-              complete: function (r) {
-                that.setData({
-                  playing: true,
-                  playingid: e.currentTarget.dataset.id,
-                  isshowplay: true,
-                  playBar: {
-                    index: e.currentTarget.dataset.index,
-                    coverImgUrl: e.currentTarget.dataset.img,
-                    name: e.currentTarget.dataset.name,
-                    id: e.currentTarget.dataset.id
-                  },
-                })
-                app.globalData.playing = {
-                  isshowplay: true,
-                  playBar: {
-                    index: e.currentTarget.dataset.index,
-                    coverImgUrl: e.currentTarget.dataset.img,
-                    name: e.currentTarget.dataset.name,
-                    id: e.currentTarget.dataset.id
-                  },
-                  dataUrl: res.data.data[0].url,
-                  name: e.currentTarget.dataset.name,
-                  singer: e.currentTarget.dataset.songer,
-                  coverImgUrl: e.currentTarget.dataset.img,
+
+            bgm.title = e.currentTarget.dataset.name
+            bgm.epname = e.currentTarget.dataset.name
+            bgm.singer = e.currentTarget.dataset.songer
+            bgm.coverImgUrl = e.currentTarget.dataset.img
+            // 设置了 src 之后会自动播放
+            bgm.src = res.data.data[0].url
+            bgm.onPlay(function () {
+              that.setData({
+                playing: true,
+                playingid: e.currentTarget.dataset.id,
+                isshowplay: true,
+                playBar: {
                   index: e.currentTarget.dataset.index,
-                  playing: true
-                }
+                  coverImgUrl: e.currentTarget.dataset.img,
+                  name: e.currentTarget.dataset.name,
+                  id: e.currentTarget.dataset.id
+                },
+              })
+              app.globalData.playing = {
+                isshowplay: true,
+                playBar: {
+                  index: e.currentTarget.dataset.index,
+                  coverImgUrl: e.currentTarget.dataset.img,
+                  name: e.currentTarget.dataset.name,
+                  id: e.currentTarget.dataset.id
+                },
+                dataUrl: res.data.data[0].url,
+                name: e.currentTarget.dataset.name,
+                singer: e.currentTarget.dataset.songer,
+                coverImgUrl: e.currentTarget.dataset.img,
+                index: e.currentTarget.dataset.index,
+                playing: true
               }
             })
           }
