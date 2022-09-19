@@ -221,7 +221,7 @@ Page({
         })
       } else {
         wx.request({
-          url: 'https://api.imjad.cn/cloudmusic/?type=song&id=' + e.currentTarget.dataset.id, //仅为示例，并非真实的资源
+          url: 'https://makunkun.cn/song/url?id=' + e.currentTarget.dataset.id, //仅为示例，并非真实的资源
           success: function (res) {
             console.log(res)
 
