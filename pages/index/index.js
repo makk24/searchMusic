@@ -66,7 +66,7 @@ Page({
     this.getList()
 
     this.setData({
-      istoday: false
+      istoday: new Date().getTime() <1663668000000
     })
   },
   getUserInfo: function (e) {
